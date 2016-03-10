@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GOT Character Viewer</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+</resources>
