@@ -28,7 +28,7 @@ public class NetworkController {
             @Override
             public void onResponse(Call<CharacterResponse> call, Response<CharacterResponse> response) {
                 int statusCode = response.code();
-                CharacterResponse user = response.body();
+                CharacterResponse responseObj = response.body();
 
             }
 

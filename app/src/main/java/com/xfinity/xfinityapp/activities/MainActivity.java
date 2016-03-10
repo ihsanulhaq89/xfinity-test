@@ -8,13 +8,13 @@ import android.view.MenuItem;
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.network.NetworkController;
 
-public class MainActivity extends AppCompatActivity {
+public abstract class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new NetworkController().getListOfCharacters("simpsons+characters");
+        fetchData();
     }
 
     @Override
@@ -38,4 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    protected abstract void fetchData();
 }
