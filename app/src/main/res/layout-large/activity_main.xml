@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/frags">
+    <!-- "Fragment With the list of characters" -->
+    <fragment class="com.xfinity.xfinityapp.fragments.MainFragment"
+        android:id="@+id/main_frag"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"/>
+    <!-- "Fragment containing the details of the selected character" -->
+    <fragment class="com.xfinity.xfinityapp.fragments.DetailFragment"
+        android:layout_weight="2"
+        android:id="@+id/details_frag"
+        android:layout_width="0dp"
+        android:layout_height="match_parent" />
+</LinearLayout>

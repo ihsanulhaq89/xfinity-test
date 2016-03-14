@@ -4,4 +4,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_simpsons_main">SimpsonsMainActivity</string>
+    <string name="font_file_path">fonts/simpsons.ttf</string>
 </resources>

@@ -1,0 +1,12 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xfinity.xfinityapp.activities.DetailActivity">
+
+    <!-- "Fragment With the list of characters" -->
+    <fragment class="com.xfinity.xfinityapp.fragments.DetailFragment"
+        android:id="@+id/details_frag"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>
