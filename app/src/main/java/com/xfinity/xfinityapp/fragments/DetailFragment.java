@@ -104,7 +104,8 @@ public class DetailFragment extends Fragment {
     public void update(RelatedTopic data) {
 
         if(!data.getIcon().getURL().isEmpty()) {
-            Picasso.with(getActivity()).load(data.getIcon().getURL()).into(imageView);
+            Picasso.with(getActivity()).load(data.getIcon().getURL())
+                    .placeholder(R.drawable.placeholder).into(imageView);
         }
         description.setText(data.getDescription());
     }

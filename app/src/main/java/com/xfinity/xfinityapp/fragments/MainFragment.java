@@ -64,6 +64,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -75,22 +76,25 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        setLinearLayout();
         mAdapter = new CharacterAdapter(getActivity(), new ArrayList<RelatedTopic>());
-        recyclerView.setAdapter(mAdapter);
+        setLinearLayout();
         return view;
     }
 
-    public void setGridLayout(){
+    public synchronized void setGridLayout(){
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(mAdapter);
+        getmAdapter().setGrid(true);
 
     }
 
 
-    public void setLinearLayout(){
+    public synchronized void setLinearLayout(){
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(mAdapter);
+        getmAdapter().setGrid(false);
 
     }
     // TODO: Rename method, update argument and hook method into UI event

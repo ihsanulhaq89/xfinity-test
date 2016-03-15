@@ -25,6 +25,8 @@ import com.xfinity.xfinityapp.util.Constants;
 public abstract class MainActivity extends BaseActivity implements MainFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, CharacterRestAPIListener{
 
     private MainFragment mainFragment;
+    private boolean isLinear = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,14 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            mainFragment.setGridLayout();
+            if(isLinear == true) {
+                mainFragment.setGridLayout();
+                item.setIcon(R.drawable.ic_action_action_view_stream);
+            }else {
+                mainFragment.setLinearLayout();
+                item.setIcon(R.drawable.ic_action_action_view_module);
+            }
+            isLinear = !isLinear;
             return true;
         }
 

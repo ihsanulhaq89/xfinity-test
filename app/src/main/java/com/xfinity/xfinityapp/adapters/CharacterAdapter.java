@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.models.RelatedTopic;
 import com.xfinity.xfinityapp.viewholders.CharacterViewHolder;
+import com.xfinity.xfinityapp.viewholders.ExtendedCharacterViewHolder;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class CharacterAdapter extends RecyclerView.Adapter{
 
     private final Context mContext;
     private final List<RelatedTopic> mItems;
+    private boolean grid;
 
     public CharacterAdapter(Context context, List<RelatedTopic> items) {
         mContext = context;
@@ -28,9 +30,16 @@ public class CharacterAdapter extends RecyclerView.Adapter{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(mContext)
-                .inflate(R.layout.row_linear, viewGroup, false);
-        return new CharacterViewHolder(mContext, v);
+        if(grid){
+            View v = LayoutInflater.from(mContext)
+                    .inflate(R.layout.row_grid, viewGroup, false);
+            return new ExtendedCharacterViewHolder(mContext, v);
+
+        }else {
+            View v = LayoutInflater.from(mContext)
+                    .inflate(R.layout.row_linear, viewGroup, false);
+            return new CharacterViewHolder(mContext, v);
+        }
     }
 
     @Override
@@ -45,5 +54,9 @@ public class CharacterAdapter extends RecyclerView.Adapter{
 
     public void addAll(List<RelatedTopic> items) {
         mItems.addAll(items);
+    }
+
+    public void setGrid(boolean grid) {
+        this.grid = grid;
     }
 }
