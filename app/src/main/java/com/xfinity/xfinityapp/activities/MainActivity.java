@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.adapters.CharacterAdapter;
@@ -126,7 +124,6 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
-            Toast.makeText(MainActivity.this, data.getTitle(), Toast.LENGTH_LONG).show();
             DetailFragment displayFrag = (DetailFragment) getFragmentManager()
                     .findFragmentById(R.id.details_frag);
             if (displayFrag == null) {
