@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.xfinity.xfinityapp.R;
+import com.xfinity.xfinityapp.models.Icon;
 import com.xfinity.xfinityapp.models.RelatedTopic;
 import com.xfinity.xfinityapp.util.Constants;
 
@@ -30,9 +31,15 @@ public class ExtendedCharacterViewHolder extends CharacterViewHolder {
 
     public void invalidate(RelatedTopic data){
         super.invalidate(data);
-        if(!data.getIcon().getURL().isEmpty()) {
-            Picasso.with(mContext).load(data.getIcon().getURL())
-                    .placeholder(R.drawable.placeholder).into(imageView);
+        Icon icon = data.getIcon();
+        if(icon == null){
+            icon = data.getIconFromDB();
+        }
+        if(icon != null) {
+            if (!icon.getURL().isEmpty()){
+                Picasso.with(mContext).load(icon.getURL())
+                        .placeholder(R.drawable.placeholder).into(imageView);
+            }
         }
     }
 

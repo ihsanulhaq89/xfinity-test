@@ -20,6 +20,8 @@ public class DetailActivity extends BaseActivity implements DetailFragment.OnFra
 
         Bundle bundle = getIntent().getExtras();
         RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
+        Long id = (Long) bundle.getLong(Constants.B_ID);
+        data.setId(id);
         setTitle(data.getTitle());
 
         DetailFragment fragment =  ((DetailFragment) getFragmentManager()

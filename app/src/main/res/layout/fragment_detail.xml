@@ -9,8 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.github.siyamed.shapeimageview.CircularImageView
+        <!--<de.hdodenhof.circleimageview.CircleImageView-->
+            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/profile_image"-->
+            <!--android:layout_width="96dp"-->
+            <!--android:layout_height="96dp"-->
+            <!--app:border="true"-->
+            <!--app:shadow="true"-->
+            <!--android:src="@drawable/profile"/>-->
 
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:background="#00000000"
             android:src="@drawable/placeholder"
             android:scaleType="fitStart"
             android:layout_margin="@dimen/activity_horizontal_margin"

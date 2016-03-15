@@ -12,14 +12,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.orm.SugarRecord;
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.adapters.CharacterAdapter;
 import com.xfinity.xfinityapp.fragments.DetailFragment;
 import com.xfinity.xfinityapp.fragments.MainFragment;
 import com.xfinity.xfinityapp.interfaces.CharacterRestAPIListener;
 import com.xfinity.xfinityapp.models.CharacterResponse;
+import com.xfinity.xfinityapp.models.Icon;
 import com.xfinity.xfinityapp.models.RelatedTopic;
 import com.xfinity.xfinityapp.util.Constants;
+
+import java.util.List;
 
 public abstract class MainActivity extends BaseActivity implements MainFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, CharacterRestAPIListener{
 
@@ -37,9 +41,19 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         setTitle(getString(R.string.title_main));
         mainFragment =  ((MainFragment) getFragmentManager()
                 .findFragmentById(R.id.main_frag));
-        fetchData();
+        fetchLocalData();
         registerBroadcastReceiver();
     }
+
+    protected void fetchLocalData(){
+        List<RelatedTopic> dataList = RelatedTopic.listAll(RelatedTopic.class);
+        if(dataList.size() > 0){
+            populateUI(dataList);
+        } else {
+            fetchData();
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save the user's current  state
@@ -109,9 +123,19 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
 
     @Override
     public void onSuccess(CharacterResponse data) {
+        List<RelatedTopic> dataList = data.getRelatedTopics();
+        for(RelatedTopic record : dataList){
+            Icon icon = record.getIcon();
+            record.save();
+            icon.save();
+        }
+        populateUI(data.getRelatedTopics());
+    }
+
+    protected void populateUI(List<RelatedTopic> dataList){
         findViewById(R.id.progress).setVisibility(View.GONE);
         CharacterAdapter adapter = mainFragment.getmAdapter();
-        adapter.addAll(data.getRelatedTopics());
+        adapter.addAll(dataList);
         adapter.notifyDataSetChanged();
     }
 
@@ -126,6 +150,8 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
+            Long id = (Long) bundle.getLong(Constants.B_ID);
+            data.setId(id);
             DetailFragment displayFrag = (DetailFragment) getFragmentManager()
                     .findFragmentById(R.id.details_frag);
             if (displayFrag == null) {
@@ -145,6 +171,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         Intent i = new Intent(this, DetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.B_DATA, data);
+        bundle.putLong(Constants.B_ID, data.getId());
         i.putExtras(bundle);
         startActivity(i);
     }

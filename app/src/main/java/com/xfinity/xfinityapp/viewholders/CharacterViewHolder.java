@@ -48,6 +48,7 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder implements View
     private void sendMessage() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.B_DATA, getData());
+        bundle.putLong(Constants.B_ID, getData().getId());
         Intent intent = new Intent(Constants.BROADCAST_EVENT);
         intent.putExtras(bundle);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);

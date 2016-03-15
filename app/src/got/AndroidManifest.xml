@@ -3,6 +3,7 @@
     <application>
         <activity android:name="com.xfinity.gotviewer.activities.GOTMainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="nosensor"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleInstance">
             <intent-filter>

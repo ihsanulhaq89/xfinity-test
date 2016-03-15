@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.xfinity.xfinityapp.R;
+import com.xfinity.xfinityapp.models.Icon;
 import com.xfinity.xfinityapp.models.RelatedTopic;
 
 /**
@@ -22,7 +25,7 @@ import com.xfinity.xfinityapp.models.RelatedTopic;
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,6 +38,8 @@ public class DetailFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private FloatingActionButton floatingActionButton;
+    private RelatedTopic data;
 
     /**
      * Use this factory method to create a new instance of
@@ -73,6 +78,8 @@ public class DetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         imageView = (ImageView) view.findViewById(R.id.image);
         description = (TextView) view.findViewById(R.id.detail);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(this);
         return view;
     }
 
@@ -102,12 +109,35 @@ public class DetailFragment extends Fragment {
     }
 
     public void update(RelatedTopic data) {
+        this.data = data;
 
-        if(!data.getIcon().getURL().isEmpty()) {
-            Picasso.with(getActivity()).load(data.getIcon().getURL())
-                    .placeholder(R.drawable.placeholder).into(imageView);
+        Icon icon = data.getIcon();
+        if(icon == null){
+            icon = data.getIconFromDB();
         }
+        if(icon != null) {
+            if (!icon.getURL().isEmpty()){
+                Picasso.with(getActivity()).load(icon.getURL())
+                        .placeholder(R.drawable.placeholder).into(imageView);
+            }
+        }
+
+
         description.setText(data.getDescription());
+        setFabIcon();
+
+    }
+
+    private void setFabIcon() {
+        int resourceId = data.getFavorite() ? R.drawable.ic_action_toggle_star : R.drawable.ic_action_toggle_star_outline;
+        floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getActivity(), resourceId));
+    }
+
+    @Override
+    public void onClick(View view) {
+        data.setFavorite(!data.getFavorite());
+        setFabIcon();
+        data.save();
     }
 
     /**
