@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.adapters.CharacterAdapter;
@@ -116,7 +117,8 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
 
     @Override
     public void onFailure(String errorMsg) {
-
+        findViewById(R.id.progress).setVisibility(View.GONE);
+        Toast.makeText(this, "Error: Please try again later.",Toast.LENGTH_LONG).show();
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
