@@ -9,24 +9,24 @@ import com.xfinity.xfinityapp.R;
 /**
  * Created by Ihsanulhaq on 3/15/2016.
  */
-public class TextView extends android.widget.TextView{
-    public TextView(Context context) {
+public class TitleTextView extends android.widget.TextView{
+    public TitleTextView(Context context) {
         super(context);
         init(context);
     }
 
-    public TextView(Context context, AttributeSet attrs) {
+    public TitleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public TextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TitleTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     private void init(Context context) {
-        setTypeface(Typeface.createFromAsset(context.getAssets(), context.getString(R.string.font_file_path)));
+        setTypeface(Typeface.createFromAsset(context.getAssets(), context.getString(R.string.title_font_file_path)));
     }
 
 

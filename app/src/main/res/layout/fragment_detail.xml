@@ -1,44 +1,44 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_base_color"
     android:layout_width="match_parent"
-    android:background="@drawable/bg"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-
-        <ImageView
-            android:scaleType="centerCrop"
+        <com.pkmmte.view.CircularImageView
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
             android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.4"
-            android:orientation="horizontal" />
+            android:layout_width="@dimen/display_pic"
+            android:layout_height="@dimen/display_pic"
+            app:border="true"
+            app:shadow="true" />
 
-        <com.xfinity.xfinityapp.customviews.TextView
+        <com.xfinity.xfinityapp.customviews.SmallTextView
+            android:layout_below="@+id/image"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/font_description"
             android:padding="@dimen/activity_horizontal_margin"
             android:id="@+id/detail"
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.6"
-            android:background="@android:color/background_dark"
-            android:textColor="@android:color/white"
-            android:orientation="horizontal" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_font_color"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:clickable="true"
         android:src="@android:drawable/btn_star"
-        app:layout_anchor="@id/image"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchor="@id/container"
+        app:layout_anchorGravity="bottom|end|right" />
 
 </android.support.design.widget.CoordinatorLayout>

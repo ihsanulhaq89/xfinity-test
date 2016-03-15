@@ -11,7 +11,7 @@ import com.xfinity.xfinityapp.fragments.DetailFragment;
 import com.xfinity.xfinityapp.models.RelatedTopic;
 import com.xfinity.xfinityapp.util.Constants;
 
-public class DetailActivity extends AppCompatActivity implements DetailFragment.OnFragmentInteractionListener{
+public class DetailActivity extends BaseActivity implements DetailFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class DetailActivity extends AppCompatActivity implements DetailFragment.
 
         Bundle bundle = getIntent().getExtras();
         RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
-
+        setTitle(data.getTitle());
 
         DetailFragment fragment =  ((DetailFragment) getFragmentManager()
                 .findFragmentById(R.id.details_frag));

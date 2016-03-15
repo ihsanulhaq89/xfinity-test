@@ -10,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.xfinity.xfinityapp.R;
+import com.xfinity.xfinityapp.adapters.CharacterAdapter;
 import com.xfinity.xfinityapp.fragments.DetailFragment;
 import com.xfinity.xfinityapp.fragments.MainFragment;
 import com.xfinity.xfinityapp.interfaces.CharacterRestAPIListener;
@@ -20,12 +22,15 @@ import com.xfinity.xfinityapp.models.CharacterResponse;
 import com.xfinity.xfinityapp.models.RelatedTopic;
 import com.xfinity.xfinityapp.util.Constants;
 
-public abstract class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, CharacterRestAPIListener{
+public abstract class MainActivity extends BaseActivity implements MainFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, CharacterRestAPIListener{
 
+    private MainFragment mainFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainFragment =  ((MainFragment) getFragmentManager()
+                .findFragmentById(R.id.main_frag));
         fetchData();
         registerBroadcastReceiver();
     }
@@ -51,8 +56,7 @@ public abstract class MainActivity extends AppCompatActivity implements MainFrag
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            ((MainFragment) getFragmentManager()
-                    .findFragmentById(R.id.main_frag)).setGridLayout();
+            mainFragment.setGridLayout();
             return true;
         }
 
@@ -73,10 +77,10 @@ public abstract class MainActivity extends AppCompatActivity implements MainFrag
 
     @Override
     public void onSuccess(CharacterResponse data) {
-        ((MainFragment) getFragmentManager()
-                .findFragmentById(R.id.main_frag)).getmAdapter().addAll(data.getRelatedTopics());
-        ((MainFragment) getFragmentManager()
-                .findFragmentById(R.id.main_frag)).getmAdapter().notifyDataSetChanged();
+        findViewById(R.id.progress).setVisibility(View.GONE);
+        CharacterAdapter adapter = mainFragment.getmAdapter();
+        adapter.addAll(data.getRelatedTopics());
+        adapter.notifyDataSetChanged();
     }
 
     @Override
