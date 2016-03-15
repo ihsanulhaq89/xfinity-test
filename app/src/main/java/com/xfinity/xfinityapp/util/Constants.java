@@ -5,5 +5,6 @@ package com.xfinity.xfinityapp.util;
  */
 public class Constants {
     public static final String B_DATA = "B_DATA";
-    public static final String BROADCAST_EVENT = "BroadcastEvent";
+    public static final String BROADCAST_EVENT = "BROADCAST_EVENT";
+    public static final String LAYOUT_TYPE = "LAYOUT_TYPE";
 }

@@ -30,13 +30,25 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            isLinear = savedInstanceState.getBoolean(Constants.LAYOUT_TYPE);
+        }
         setContentView(R.layout.activity_main);
+        setTitle(getString(R.string.title_main));
         mainFragment =  ((MainFragment) getFragmentManager()
                 .findFragmentById(R.id.main_frag));
         fetchData();
         registerBroadcastReceiver();
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current  state
+        savedInstanceState.putBoolean(Constants.LAYOUT_TYPE, isLinear);
 
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
     private void registerBroadcastReceiver() {
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter(Constants.BROADCAST_EVENT));
@@ -46,6 +58,11 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(isLinear){
+            setLinear(menu.findItem(R.id.action_settings));
+        }else {
+            setGrid(menu.findItem(R.id.action_settings));
+        }
         return true;
     }
 
@@ -59,11 +76,9 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             if(isLinear == true) {
-                mainFragment.setGridLayout();
-                item.setIcon(R.drawable.ic_action_action_view_stream);
+                setGrid(item);
             }else {
-                mainFragment.setLinearLayout();
-                item.setIcon(R.drawable.ic_action_action_view_module);
+                setLinear(item);
             }
             isLinear = !isLinear;
             return true;
@@ -72,6 +87,15 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         return super.onOptionsItemSelected(item);
     }
 
+    private void setGrid(MenuItem item){
+        mainFragment.setGridLayout();
+        item.setIcon(R.drawable.ic_action_action_view_stream);
+    }
+
+    private void setLinear(MenuItem item){
+        mainFragment.setLinearLayout();
+        item.setIcon(R.drawable.ic_action_action_view_module);
+    }
     @Override
     public void onMainFragmentInteraction(Uri uri) {
 

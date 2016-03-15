@@ -2,7 +2,9 @@
 
     <application>
         <activity android:name="com.xfinity.simpsonsviewer.activities.SimpsonsMainActivity"
-            android:label="@string/title_activity_simpsons_main" >
+            android:label="@string/app_name"
+            android:alwaysRetainTaskState="true"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

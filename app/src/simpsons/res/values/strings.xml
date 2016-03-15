@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Simpsons Character Viewer</string>
-    <string name="title_activity_simpsons_main">The Simpsons Character Viewer</string>
+    <string name="title_main">The Simpsons Character Viewer</string>
     <string name="font_file_path">fonts/cheri.ttf</string>
     <string name="title_font_file_path">fonts/simpsons.ttf</string>
-    <string name="title">The Simpsons</string>
 </resources>
