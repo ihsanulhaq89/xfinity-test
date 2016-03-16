@@ -1,7 +1,7 @@
 <resources>
 
     <item name="app_base_color" type="color">#cf000000</item>
-    <item name="app_font_color" type="color">@android:color/white</item>
+    <item name="app_font_color" type="color">#ffdf5b</item>
     <item name="app_bar_color" type="color">#FF000000</item>
 
 </resources>

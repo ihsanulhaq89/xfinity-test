@@ -12,6 +12,7 @@ import com.xfinity.xfinityapp.models.RelatedTopic;
 import com.xfinity.xfinityapp.viewholders.CharacterViewHolder;
 import com.xfinity.xfinityapp.viewholders.ExtendedCharacterViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
 public class CharacterAdapter extends RecyclerView.Adapter{
 
     private final Context mContext;
-    private final List<RelatedTopic> mItems;
+    private List<RelatedTopic> mItems;
     private boolean grid;
 
     public CharacterAdapter(Context context, List<RelatedTopic> items) {
@@ -53,7 +54,7 @@ public class CharacterAdapter extends RecyclerView.Adapter{
     }
 
     public void addAll(List<RelatedTopic> items) {
-        mItems.addAll(items);
+        mItems = items;
     }
 
     public void setGrid(boolean grid) {

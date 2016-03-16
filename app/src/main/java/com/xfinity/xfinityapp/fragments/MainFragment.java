@@ -139,4 +139,6 @@ public class MainFragment extends Fragment {
     public CharacterAdapter getmAdapter(){
         return mAdapter;
     }
+
+
 }

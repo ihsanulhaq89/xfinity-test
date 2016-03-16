@@ -1,56 +1,51 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/app_base_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<de.hdodenhof.circleimageview.CircleImageView-->
-            <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-            <!--android:id="@+id/profile_image"-->
-            <!--android:layout_width="96dp"-->
-            <!--android:layout_height="96dp"-->
-            <!--app:border="true"-->
-            <!--app:shadow="true"-->
-            <!--android:src="@drawable/profile"/>-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <com.github.siyamed.shapeimageview.CircularImageView
-            android:background="#00000000"
-            android:src="@drawable/placeholder"
-            android:scaleType="fitStart"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/image"
-            android:layout_width="@dimen/display_pic"
-            android:layout_height="@dimen/display_pic"
-            app:siBorderWidth="2dp"/>
+                <com.github.siyamed.shapeimageview.CircularImageView
+                    android:id="@+id/image"
+                    android:layout_width="@dimen/display_pic"
+                    android:layout_height="@dimen/display_pic"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="@dimen/activity_horizontal_margin"
+                    android:background="#00000000"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/placeholder"
+                    app:siBorderWidth="2dp" />
 
-        <com.xfinity.xfinityapp.customviews.SmallTextView
-            android:layout_below="@+id/image"
-            android:layout_centerInParent="true"
-            android:textSize="@dimen/font_description"
-            android:padding="@dimen/activity_horizontal_margin"
-            android:id="@+id/detail"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/app_font_color"/>
+                <com.xfinity.xfinityapp.customviews.SmallTextView
+                    android:id="@+id/detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/image"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:textColor="@color/app_font_color"
+                    android:textSize="@dimen/font_description" />
+        </RelativeLayout>
+    </ScrollView>
 
-    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:visibility="gone"
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:clickable="true"
         android:src="@drawable/ic_action_toggle_star_outline"
         app:backgroundTint="@color/app_bar_color"
         app:layout_anchor="@id/container"
         app:layout_anchorGravity="bottom|end|right" />
-
 </android.support.design.widget.CoordinatorLayout>

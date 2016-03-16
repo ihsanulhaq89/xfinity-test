@@ -7,4 +7,5 @@
     <dimen name="font_title">20sp</dimen>
     <dimen name="font_small">17sp</dimen>
     <dimen name="font_description">25sp</dimen>
+    <dimen name="basic_padding">2dp</dimen>
 </resources>

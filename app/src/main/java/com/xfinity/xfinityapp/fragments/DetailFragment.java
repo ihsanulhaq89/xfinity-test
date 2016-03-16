@@ -115,11 +115,12 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         if(icon == null){
             icon = data.getIconFromDB();
         }
-        if(icon != null) {
-            if (!icon.getURL().isEmpty()){
-                Picasso.with(getActivity()).load(icon.getURL())
-                        .placeholder(R.drawable.placeholder).into(imageView);
-            }
+        if(icon != null && !icon.getURL().isEmpty()) {
+            Picasso.with(getActivity()).load(icon.getURL())
+                    .placeholder(R.drawable.placeholder).into(imageView);
+
+        }else {
+            imageView.setImageResource(R.drawable.placeholder);
         }
 
 
@@ -131,6 +132,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private void setFabIcon() {
         int resourceId = data.getFavorite() ? R.drawable.ic_action_toggle_star : R.drawable.ic_action_toggle_star_outline;
         floatingActionButton.setImageDrawable(ContextCompat.getDrawable(getActivity(), resourceId));
+        floatingActionButton.setVisibility(View.VISIBLE);
     }
 
     @Override

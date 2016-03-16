@@ -6,10 +6,13 @@
 
     <com.xfinity.xfinityapp.customviews.SmallTextView
         android:id="@+id/title"
+        android:background="@color/app_base_color"
         android:textColor="@color/app_font_color"
         android:textSize="@dimen/font_small"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/basic_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
