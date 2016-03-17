@@ -2,4 +2,9 @@
     <string name="title_activity_detail">Detail Activity</string>
     <string name="action_settings">Change Layout</string>
     <string name="action_close">Close</string>
+    <string name="secondary_title">Character Viewer</string>
+    <string-array name="options">
+        <item>All Characters</item>
+        <item>Favorites</item>
+    </string-array>
 </resources>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Simpsons Character Viewer</string>
-    <string name="title_main">The Simpsons Character Viewer</string>
+    <string name="title_main"> The\nSimpsons</string>
     <string name="font_file_path">fonts/cheri.ttf</string>
     <string name="title_font_file_path">fonts/simpsons.ttf</string>
+    <string name="placeholder">The Simpsons is an American animated sitcom created by Matt Groening for the Fox Broadcasting Company. The series is a satirical depiction of a working class lifestyle epitomized by the Simpson family, which consists of Homer, Marge, Bart, Lisa, and Maggie.</string>
 </resources>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">GOT Character Viewer</string>
-    <string name="title_main"># Character Viewer</string>
+    <string name="title_main"># </string>
     <string name="title_font_file_path">fonts/got.ttf</string>
     <string name="font_file_path">fonts/thor.ttf</string>
+    <string name="placeholder">Game of Thrones follows the storylines set out in A Song of Ice and Fire, set in the fictional Seven Kingdoms of Westeros. The series chronicles the violent dynastic struggles among the realm\'s noble families for control of the Iron Throne.</string>
 </resources>

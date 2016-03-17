@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.customviews.TitleTextView;
@@ -15,6 +16,8 @@ import com.xfinity.xfinityapp.customviews.TitleTextView;
 public class BaseActivity extends AppCompatActivity {
 
     private TitleTextView title;
+    private TitleTextView secondaryTitle;
+    private ImageButton navButton;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -22,6 +25,12 @@ public class BaseActivity extends AppCompatActivity {
         setActionBar();
     }
 
+    public void showSecondaryTitle(){
+        secondaryTitle.setVisibility(View.VISIBLE);
+    }
+    public void showNav(){
+        navButton.setVisibility(View.VISIBLE);
+    }
     private void setActionBar() {
         this.getSupportActionBar().setDisplayShowCustomEnabled(true);
         this.getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -29,11 +38,16 @@ public class BaseActivity extends AppCompatActivity {
         LayoutInflater inflator = LayoutInflater.from(this);
         View v = inflator.inflate(R.layout.actionbar, null);
         title =  ((TitleTextView) v.findViewById(R.id.title));
+        secondaryTitle =  ((TitleTextView) v.findViewById(R.id.secondaryTitle));
+        navButton =  ((ImageButton) v.findViewById(R.id.nav_Button));
         title.setText(this.getTitle());
 
         this.getSupportActionBar().setCustomView(v);
     }
 
+    public ImageButton getNavButton(){
+        return navButton;
+    }
     public void setTitle(String title){
         this.title.setText(title);
     }

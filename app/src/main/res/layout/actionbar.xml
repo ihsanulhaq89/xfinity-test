@@ -2,15 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+    <ImageButton
+        android:id="@+id/nav_Button"
+        android:background="@null"
+        android:visibility="gone"
+        android:src="@drawable/selector_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
     <com.xfinity.xfinityapp.customviews.TitleTextView
+        android:layout_toRightOf="@+id/nav_Button"
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/margin_left"
         android:textSize="@dimen/font_title"
+        android:textColor="@color/app_font_color"
+        android:ellipsize="end" />
+    <com.xfinity.xfinityapp.customviews.TitleTextView
+        android:layout_toRightOf="@+id/title"
+        android:visibility="gone"
+        android:id="@+id/secondaryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:textSize="@dimen/font_title"
         android:maxLines="1"
+        android:text="@string/secondary_title"
         android:textColor="@color/app_font_color"
         android:ellipsize="end" />
 </RelativeLayout>

@@ -7,14 +7,18 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.orm.SugarRecord;
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.adapters.CharacterAdapter;
 import com.xfinity.xfinityapp.fragments.DetailFragment;
@@ -28,8 +32,10 @@ import com.xfinity.xfinityapp.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MainActivity extends BaseActivity implements MainFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, CharacterRestAPIListener, SearchView.OnQueryTextListener {
-
+public abstract class MainActivity extends BaseActivity implements MainFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener, CharacterRestAPIListener, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, View.OnClickListener, DrawerLayout.DrawerListener {
+    private String[] drawerOptions;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
     private MainFragment mainFragment;
     private DetailFragment displayFrag;
     private boolean isLinear = true;
@@ -50,14 +56,29 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
 
         displayFrag = (DetailFragment) getFragmentManager()
                 .findFragmentById(R.id.details_frag);
+
+        setDrawerLayout();
         fetchLocalData();
         registerBroadcastReceiver();
+    }
+
+    private void setDrawerLayout() {
+        drawerOptions = getResources().getStringArray(R.array.options);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.row_drawer, drawerOptions));
+        // Set the list's click listener
+        mDrawerList.setOnItemClickListener(this);
+        mDrawerLayout.addDrawerListener(this);
     }
 
     protected void fetchLocalData(){
         List<RelatedTopic> dataList = RelatedTopic.listAll(RelatedTopic.class);
         if(dataList.size() > 0){
-            populateUI(dataList);
+            populateUI(dataList, false);
         } else {
             fetchData();
         }
@@ -79,6 +100,10 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
+
+        showNav();
+        showSecondaryTitle();
+        getNavButton().setOnClickListener(this);
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         if(displayFrag == null) {
@@ -147,11 +172,13 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
             record.save();
             icon.save();
         }
-        populateUI(data.getRelatedTopics());
+        populateUI(data.getRelatedTopics(), false);
     }
 
-    protected void populateUI(List<RelatedTopic> dataList){
-        this.data = dataList;
+    protected void populateUI(List<RelatedTopic> dataList, boolean isFavorites){
+        if(!isFavorites) {
+            this.data = dataList;
+        }
         findViewById(R.id.progress).setVisibility(View.GONE);
         CharacterAdapter adapter = mainFragment.getmAdapter();
         adapter.addAll(dataList);
@@ -234,5 +261,71 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
             }
         }
         return filteredModelList;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        closeDrawer();
+        if(i==0){
+            populateUI(this.data, false);
+        }else {
+            fetchFavorites();
+        }
+    }
+
+    private void fetchFavorites() {
+        String[] favoriteValueArray = new String[1];
+        favoriteValueArray[0] = "true";
+        List<RelatedTopic> listFav= RelatedTopic.find(RelatedTopic.class,"favorite=?","1");
+        if (listFav.size() > 0) {
+            populateUI(listFav, false);
+        }else {
+            populateUI(this.data, true);
+            Toast.makeText(this, "No Favorites found!", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.nav_Button:
+                if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+                    closeDrawer();
+                }else {
+                    openDrawer();
+                }
+                break;
+        }
+    }
+
+    private void closeDrawer() {
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        getNavButton().setSelected(false);
+    }
+
+    private void openDrawer(){
+        mDrawerLayout.openDrawer(GravityCompat.START);
+        getNavButton().setSelected(true);
+    }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        closeDrawer();
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 }

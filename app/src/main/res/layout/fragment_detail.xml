@@ -25,6 +25,7 @@
 
                 <com.xfinity.xfinityapp.customviews.SmallTextView
                     android:id="@+id/detail"
+                    android:text="@string/placeholder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/image"
