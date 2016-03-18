@@ -225,6 +225,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         bundle.putLong(Constants.B_ID, data.getId());
         i.putExtras(bundle);
         startActivity(i);
+        overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 
     @Override

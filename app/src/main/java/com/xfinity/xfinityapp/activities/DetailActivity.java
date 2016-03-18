@@ -1,7 +1,6 @@
 package com.xfinity.xfinityapp.activities;
 
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,9 +13,10 @@ import com.xfinity.xfinityapp.util.Constants;
 public class DetailActivity extends BaseActivity implements DetailFragment.OnFragmentInteractionListener{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        overridePendingTransition(R.anim.push_out_left, R.anim.push_out_right);
 
         Bundle bundle = getIntent().getExtras();
         RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
@@ -47,7 +47,7 @@ public class DetailActivity extends BaseActivity implements DetailFragment.OnFra
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_close) {
-            this.finish();
+            this.onBackPressed();
             return true;
         }
 
@@ -57,5 +57,10 @@ public class DetailActivity extends BaseActivity implements DetailFragment.OnFra
     @Override
     public void onDetailFragmentInteraction(Uri uri) {
 
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }
 }
