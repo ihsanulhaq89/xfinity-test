@@ -20,6 +20,7 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder implements View
     private final Context mContext;
     private TextView itemView;
     private RelatedTopic data;
+    private int index;
 
     public CharacterViewHolder(Context context, View itemView) {
         super(itemView);
@@ -28,8 +29,9 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder implements View
         itemView.setOnClickListener(this);
     }
 
-    public void invalidate(RelatedTopic data){
+    public void invalidate(RelatedTopic data, int index){
         setData(data);
+        this.index = index;
         itemView.setText(data.getTitle());
     }
     @Override
@@ -49,7 +51,8 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder implements View
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.B_DATA, getData());
         bundle.putLong(Constants.B_ID, getData().getId());
-        Intent intent = new Intent(Constants.BROADCAST_EVENT);
+        bundle.putInt(Constants.B_INDEX, index);
+        Intent intent = new Intent(Constants.BROADCAST_SELECTION);
         intent.putExtras(bundle);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }

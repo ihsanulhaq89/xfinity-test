@@ -20,14 +20,15 @@ public class DetailActivity extends BaseActivity implements DetailFragment.OnFra
 
         Bundle bundle = getIntent().getExtras();
         RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
-        Long id = (Long) bundle.getLong(Constants.B_ID);
+        Long id = bundle.getLong(Constants.B_ID);
+        int index = bundle.getInt(Constants.B_INDEX);
         data.setId(id);
         setTitle(data.getTitle());
 
         DetailFragment fragment =  ((DetailFragment) getFragmentManager()
                 .findFragmentById(R.id.details_frag));
 
-        fragment.update(data);
+        fragment.update(data, index);
 
     }
 

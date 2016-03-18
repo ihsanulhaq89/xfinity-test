@@ -2,10 +2,12 @@ package com.xfinity.xfinityapp.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.models.Icon;
 import com.xfinity.xfinityapp.models.RelatedTopic;
+import com.xfinity.xfinityapp.util.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +43,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     private OnFragmentInteractionListener mListener;
     private FloatingActionButton floatingActionButton;
     private RelatedTopic data;
+    private int index;
 
     /**
      * Use this factory method to create a new instance of
@@ -108,18 +112,25 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    public void update(RelatedTopic data) {
+    public void update(RelatedTopic data, int index) {
+        if(data == null){
+            description.setText(getString(R.string.placeholder));
+            imageView.setImageResource(R.drawable.placeholder);
+            floatingActionButton.setVisibility(View.GONE);
+            return;
+        }
         this.data = data;
+        this.index = index;
 
         Icon icon = data.getIcon();
-        if(icon == null){
+        if (icon == null) {
             icon = data.getIconFromDB();
         }
-        if(icon != null && !icon.getURL().isEmpty()) {
+        if (icon != null && !icon.getURL().isEmpty()) {
             Picasso.with(getActivity()).load(icon.getURL())
                     .placeholder(R.drawable.placeholder).into(imageView);
 
-        }else {
+        } else {
             imageView.setImageResource(R.drawable.placeholder);
         }
 
@@ -135,11 +146,21 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
         floatingActionButton.setVisibility(View.VISIBLE);
     }
 
+    private void sendMessage() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.B_DATA, data);
+        bundle.putInt(Constants.B_INDEX, index);
+        Intent intent = new Intent(Constants.BROADCAST_FAVORITE);
+        intent.putExtras(bundle);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+    }
+
     @Override
     public void onClick(View view) {
         data.setFavorite(!data.getFavorite());
         setFabIcon();
         data.save();
+        sendMessage();
     }
 
     /**

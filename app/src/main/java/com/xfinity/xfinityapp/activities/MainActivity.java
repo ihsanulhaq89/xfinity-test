@@ -41,6 +41,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     private boolean isLinear = true;
     private List<RelatedTopic> data;
     private Menu menu;
+    private boolean isFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         if (savedInstanceState != null) {
             // Restore value of members from saved state
             isLinear = savedInstanceState.getBoolean(Constants.LAYOUT_TYPE);
+            isLinear = savedInstanceState.getBoolean(Constants.DATA_TYPE);
         }
         setContentView(R.layout.activity_main);
         setTitle(getString(R.string.title_main));
@@ -88,13 +90,18 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save the user's current  state
         savedInstanceState.putBoolean(Constants.LAYOUT_TYPE, isLinear);
+        savedInstanceState.putBoolean(Constants.DATA_TYPE, isFavorite);
 
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
     private void registerBroadcastReceiver() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter(Constants.BROADCAST_EVENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(mSelectionReceiver,
+                new IntentFilter(Constants.BROADCAST_SELECTION));
+        if(displayFrag != null) {
+            LocalBroadcastManager.getInstance(this).registerReceiver(mFavoriteUpdateReceiver,
+                    new IntentFilter(Constants.BROADCAST_FAVORITE));
+        }
     }
 
     @Override
@@ -193,36 +200,62 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(isFavorite){
+            fetchFavorites();
+        }
+    }
+
+    @Override
     public void onFailure(String errorMsg) {
         findViewById(R.id.progress).setVisibility(View.GONE);
         Toast.makeText(this, "Error: Please try again later.",Toast.LENGTH_LONG).show();
     }
 
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver mSelectionReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
-            Long id = (Long) bundle.getLong(Constants.B_ID);
+            Long id = bundle.getLong(Constants.B_ID);
+            int index = bundle.getInt(Constants.B_INDEX);
             data.setId(id);
             if (displayFrag == null) {
-                startDetailActivity(data);
+                startDetailActivity(data, index);
 
             } else {
-                updateDetailFragment(displayFrag, data);
+                updateDetailFragment(data, index);
             }
         }
     };
+    private BroadcastReceiver mFavoriteUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
+            int index = bundle.getInt(Constants.B_INDEX);
+            if(mainFragment != null && isFavorite){
+                if(data.getFavorite()){
+                    mainFragment.getmAdapter().getItems().add(index, data);
+                }else {
+                    mainFragment.getmAdapter().getItems().remove(index);
+                }
+                mainFragment.getmAdapter().notifyDataSetChanged();
+            }
 
-    private void updateDetailFragment(DetailFragment displayFrag, RelatedTopic data) {
-        displayFrag.update(data);
+        }
+    };
+    private void updateDetailFragment(RelatedTopic data, int index) {
+        displayFrag.update(data, index);
     }
 
-    private void startDetailActivity(RelatedTopic data) {
+    private void startDetailActivity(RelatedTopic data, int index) {
         Intent i = new Intent(this, DetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.B_DATA, data);
         bundle.putLong(Constants.B_ID, data.getId());
+        bundle.putInt(Constants.B_INDEX, index);
         i.putExtras(bundle);
         startActivity(i);
         overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
@@ -231,7 +264,10 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     @Override
     protected void onDestroy() {
         // Unregister since the activity is about to be closed.
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mSelectionReceiver);
+        if(displayFrag != null) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mFavoriteUpdateReceiver);
+        }
         super.onDestroy();
     }
 
@@ -268,8 +304,10 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         closeDrawer();
         if(i==0){
+            isFavorite = false;
             populateUI(this.data, false);
         }else {
+            isFavorite = true;
             fetchFavorites();
         }
     }
@@ -279,9 +317,13 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         favoriteValueArray[0] = "true";
         List<RelatedTopic> listFav= RelatedTopic.find(RelatedTopic.class,"favorite=?","1");
         if (listFav.size() > 0) {
-            populateUI(listFav, false);
+            populateUI(listFav, true);
+            if(displayFrag!=null){
+                displayFrag.update(null, 0);
+            }
         }else {
-            populateUI(this.data, true);
+            isFavorite = false;
+            populateUI(this.data, false);
             Toast.makeText(this, "No Favorites found!", Toast.LENGTH_LONG).show();
         }
 

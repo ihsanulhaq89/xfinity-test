@@ -45,7 +45,7 @@ public class CharacterAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        ((CharacterViewHolder)viewHolder).invalidate(mItems.get(i));
+        ((CharacterViewHolder)viewHolder).invalidate(mItems.get(i), i);
     }
 
     @Override
@@ -57,6 +57,9 @@ public class CharacterAdapter extends RecyclerView.Adapter{
         mItems = items;
     }
 
+    public List<RelatedTopic> getItems(){
+        return mItems;
+    }
     public void setGrid(boolean grid) {
         this.grid = grid;
     }

@@ -29,8 +29,8 @@ public class ExtendedCharacterViewHolder extends CharacterViewHolder {
         imageView = (ImageView) itemView.findViewById(R.id.image);
     }
 
-    public void invalidate(RelatedTopic data){
-        super.invalidate(data);
+    public void invalidate(RelatedTopic data, int index){
+        super.invalidate(data, index);
         Icon icon = data.getIcon();
         if(icon == null){
             icon = data.getIconFromDB();
