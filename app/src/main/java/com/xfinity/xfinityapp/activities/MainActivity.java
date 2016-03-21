@@ -42,6 +42,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     private DetailFragment displayFrag;
     private boolean isLinear = true;
     private List<RelatedTopic> data;
+    private List<RelatedTopic> favourites;
     private Menu menu;
     private boolean isFavorite;
 
@@ -128,8 +129,18 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
+        searchView.setOnSearchClickListener(searchClickListener);
         return true;
     }
+
+    private View.OnClickListener searchClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (isFavorite) {
+                favourites = mainFragment.getmAdapter().getItems();
+            }
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -283,7 +294,8 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        List<RelatedTopic> newData = filter(data, newText);
+        List<RelatedTopic> currentList = isFavorite ? favourites : data;
+        List<RelatedTopic> newData = filter(currentList, newText);
         mainFragment.getmAdapter().addAll(newData);
         mainFragment.getmAdapter().notifyDataSetChanged();
         if (newData.size() <= 0) {
