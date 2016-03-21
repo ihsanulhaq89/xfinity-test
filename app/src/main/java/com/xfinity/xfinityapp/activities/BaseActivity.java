@@ -56,30 +56,33 @@ public class BaseActivity extends AppCompatActivity {
         setActionBar();
     }
 
-    public void showSecondaryTitle(){
+    public void showSecondaryTitle() {
         secondaryTitle.setVisibility(View.VISIBLE);
     }
-    public void showNav(){
+
+    public void showNav() {
         navButton.setVisibility(View.VISIBLE);
     }
+
     private void setActionBar() {
         this.getSupportActionBar().setDisplayShowCustomEnabled(true);
         this.getSupportActionBar().setDisplayShowTitleEnabled(false);
         this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.app_bar_color))); // set your desired color
         LayoutInflater inflator = LayoutInflater.from(this);
         View v = inflator.inflate(R.layout.actionbar, null);
-        title =  ((TitleTextView) v.findViewById(R.id.title));
-        secondaryTitle =  ((TitleTextView) v.findViewById(R.id.secondaryTitle));
-        navButton =  ((ImageButton) v.findViewById(R.id.nav_Button));
+        title = ((TitleTextView) v.findViewById(R.id.title));
+        secondaryTitle = ((TitleTextView) v.findViewById(R.id.secondaryTitle));
+        navButton = ((ImageButton) v.findViewById(R.id.nav_Button));
         title.setText(this.getTitle());
 
         this.getSupportActionBar().setCustomView(v);
     }
 
-    public ImageButton getNavButton(){
+    public ImageButton getNavButton() {
         return navButton;
     }
-    public void setTitle(String title){
+
+    public void setTitle(String title) {
         this.title.setText(title);
     }
 }

@@ -29,7 +29,7 @@ public class SquareRelativeLayout extends RelativeLayout {
         this.context = context;
     }
 
-    private int getMeasure(){
+    private int getMeasure() {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
@@ -38,6 +38,7 @@ public class SquareRelativeLayout extends RelativeLayout {
         int height = size.y;
         return width < height ? width : height;
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);

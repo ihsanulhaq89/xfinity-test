@@ -1,19 +1,13 @@
 package com.xfinity.xfinityapp.viewholders;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.models.Icon;
 import com.xfinity.xfinityapp.models.RelatedTopic;
-import com.xfinity.xfinityapp.util.Constants;
 
 /**
  * Created by Ihsanulhaq on 3/12/2016.
@@ -29,14 +23,14 @@ public class ExtendedCharacterViewHolder extends CharacterViewHolder {
         imageView = (ImageView) itemView.findViewById(R.id.image);
     }
 
-    public void invalidate(RelatedTopic data, int index){
+    public void invalidate(RelatedTopic data, int index) {
         super.invalidate(data, index);
         Icon icon = data.getIcon();
-        if(icon == null){
+        if (icon == null) {
             icon = data.getIconFromDB();
         }
-        if(icon != null) {
-            if (!icon.getURL().isEmpty()){
+        if (icon != null) {
+            if (!icon.getURL().isEmpty()) {
                 Picasso.with(mContext).load(icon.getURL())
                         .placeholder(R.drawable.placeholder).into(imageView);
             }

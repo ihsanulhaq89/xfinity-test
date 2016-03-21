@@ -8,9 +8,9 @@ import android.view.MenuItem;
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.fragments.DetailFragment;
 import com.xfinity.xfinityapp.models.RelatedTopic;
-import com.xfinity.xfinityapp.util.Constants;
+import com.xfinity.xfinityapp.util.BundleConstants;
 
-public class DetailActivity extends BaseActivity implements DetailFragment.OnFragmentInteractionListener{
+public class DetailActivity extends BaseActivity implements DetailFragment.OnFragmentInteractionListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,13 +19,13 @@ public class DetailActivity extends BaseActivity implements DetailFragment.OnFra
         overridePendingTransition(R.anim.push_out_left, R.anim.push_out_right);
 
         Bundle bundle = getIntent().getExtras();
-        RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
-        Long id = bundle.getLong(Constants.B_ID);
-        int index = bundle.getInt(Constants.B_INDEX);
+        RelatedTopic data = (RelatedTopic) bundle.getSerializable(BundleConstants.B_DATA);
+        Long id = bundle.getLong(BundleConstants.B_ID);
+        int index = bundle.getInt(BundleConstants.B_INDEX);
         data.setId(id);
         setTitle(data.getTitle());
 
-        DetailFragment fragment =  ((DetailFragment) getFragmentManager()
+        DetailFragment fragment = ((DetailFragment) getFragmentManager()
                 .findFragmentById(R.id.details_frag));
 
         fragment.update(data, index);
@@ -59,6 +59,7 @@ public class DetailActivity extends BaseActivity implements DetailFragment.OnFra
     public void onDetailFragmentInteraction(Uri uri) {
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

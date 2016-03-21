@@ -23,7 +23,7 @@ public class CharacterRestAPI implements Callback<CharacterResponse> {
     private CharacterRestAPIListener listener;
     private CharacterService service;
 
-    public CharacterRestAPI(CharacterRestAPIListener listener){
+    public CharacterRestAPI(CharacterRestAPIListener listener) {
         this.listener = listener;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -33,13 +33,14 @@ public class CharacterRestAPI implements Callback<CharacterResponse> {
         service = retrofit.create(CharacterService.class);
         this.listener = listener;
     }
-    public void getListOfGOTCharacters(){
+
+    public void getListOfGOTCharacters() {
         Call<CharacterResponse> call = null;
         call = service.getListOfGOTCharacters();
         call.enqueue(this);
     }
 
-    public void getListOfSimpsonsCharacters(){
+    public void getListOfSimpsonsCharacters() {
         Call<CharacterResponse> call = null;
         call = service.getListOfSimpsonsCharacters();
         call.enqueue(this);

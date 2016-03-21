@@ -81,7 +81,7 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    public synchronized void setGridLayout(){
+    public synchronized void setGridLayout() {
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
@@ -90,13 +90,14 @@ public class MainFragment extends Fragment {
     }
 
 
-    public synchronized void setLinearLayout(){
+    public synchronized void setLinearLayout() {
         GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
         getmAdapter().setGrid(false);
 
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -136,7 +137,7 @@ public class MainFragment extends Fragment {
         public void onMainFragmentInteraction(Uri uri);
     }
 
-    public CharacterAdapter getmAdapter(){
+    public CharacterAdapter getmAdapter() {
         return mAdapter;
     }
 

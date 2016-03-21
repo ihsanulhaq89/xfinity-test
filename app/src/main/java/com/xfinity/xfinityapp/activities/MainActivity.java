@@ -27,7 +27,9 @@ import com.xfinity.xfinityapp.interfaces.CharacterRestAPIListener;
 import com.xfinity.xfinityapp.models.CharacterResponse;
 import com.xfinity.xfinityapp.models.Icon;
 import com.xfinity.xfinityapp.models.RelatedTopic;
-import com.xfinity.xfinityapp.util.Constants;
+import com.xfinity.xfinityapp.util.AppConstants;
+import com.xfinity.xfinityapp.util.BundleConstants;
+import com.xfinity.xfinityapp.util.EventConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +50,12 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             // Restore value of members from saved state
-            isLinear = savedInstanceState.getBoolean(Constants.LAYOUT_TYPE);
-            isLinear = savedInstanceState.getBoolean(Constants.DATA_TYPE);
+            isLinear = savedInstanceState.getBoolean(AppConstants.LAYOUT_TYPE);
+            isLinear = savedInstanceState.getBoolean(AppConstants.DATA_TYPE);
         }
         setContentView(R.layout.activity_main);
         setTitle(getString(R.string.title_main));
-        mainFragment =  ((MainFragment) getFragmentManager()
+        mainFragment = ((MainFragment) getFragmentManager()
                 .findFragmentById(R.id.main_frag));
 
         displayFrag = (DetailFragment) getFragmentManager()
@@ -77,9 +79,9 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         mDrawerLayout.addDrawerListener(this);
     }
 
-    protected void fetchLocalData(){
+    protected void fetchLocalData() {
         List<RelatedTopic> dataList = RelatedTopic.listAll(RelatedTopic.class);
-        if(dataList.size() > 0){
+        if (dataList.size() > 0) {
             populateUI(dataList, false);
         } else {
             fetchData();
@@ -89,18 +91,19 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save the user's current  state
-        savedInstanceState.putBoolean(Constants.LAYOUT_TYPE, isLinear);
-        savedInstanceState.putBoolean(Constants.DATA_TYPE, isFavorite);
+        savedInstanceState.putBoolean(AppConstants.LAYOUT_TYPE, isLinear);
+        savedInstanceState.putBoolean(AppConstants.DATA_TYPE, isFavorite);
 
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
     }
+
     private void registerBroadcastReceiver() {
         LocalBroadcastManager.getInstance(this).registerReceiver(mSelectionReceiver,
-                new IntentFilter(Constants.BROADCAST_SELECTION));
-        if(displayFrag != null) {
+                new IntentFilter(EventConstants.BROADCAST_SELECTION));
+        if (displayFrag != null) {
             LocalBroadcastManager.getInstance(this).registerReceiver(mFavoriteUpdateReceiver,
-                    new IntentFilter(Constants.BROADCAST_FAVORITE));
+                    new IntentFilter(EventConstants.BROADCAST_FAVORITE));
         }
     }
 
@@ -113,7 +116,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         getNavButton().setOnClickListener(this);
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        if(displayFrag == null) {
+        if (displayFrag == null) {
             if (isLinear) {
                 setLinear(menu.findItem(R.id.action_settings));
             } else {
@@ -138,9 +141,9 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
 
-            if(isLinear == true) {
+            if (isLinear == true) {
                 setGrid(item);
-            }else {
+            } else {
                 setLinear(item);
             }
             isLinear = !isLinear;
@@ -150,15 +153,16 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         return super.onOptionsItemSelected(item);
     }
 
-    private void setGrid(MenuItem item){
+    private void setGrid(MenuItem item) {
         mainFragment.setGridLayout();
         item.setIcon(R.drawable.ic_action_action_view_stream);
     }
 
-    private void setLinear(MenuItem item){
+    private void setLinear(MenuItem item) {
         mainFragment.setLinearLayout();
         item.setIcon(R.drawable.ic_action_action_view_module);
     }
+
     @Override
     public void onMainFragmentInteraction(Uri uri) {
 
@@ -174,7 +178,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     @Override
     public void onSuccess(CharacterResponse data) {
         List<RelatedTopic> dataList = data.getRelatedTopics();
-        for(RelatedTopic record : dataList){
+        for (RelatedTopic record : dataList) {
             Icon icon = record.getIcon();
             record.save();
             icon.save();
@@ -182,8 +186,8 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         populateUI(data.getRelatedTopics(), false);
     }
 
-    protected void populateUI(List<RelatedTopic> dataList, boolean isFavorites){
-        if(!isFavorites) {
+    protected void populateUI(List<RelatedTopic> dataList, boolean isFavorites) {
+        if (!isFavorites) {
             this.data = dataList;
         }
         findViewById(R.id.progress).setVisibility(View.GONE);
@@ -202,7 +206,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     @Override
     protected void onResume() {
         super.onResume();
-        if(isFavorite){
+        if (isFavorite) {
             fetchFavorites();
         }
     }
@@ -210,16 +214,16 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     @Override
     public void onFailure(String errorMsg) {
         findViewById(R.id.progress).setVisibility(View.GONE);
-        Toast.makeText(this, "Error: Please try again later.",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Error: Please try again later.", Toast.LENGTH_LONG).show();
     }
 
     private BroadcastReceiver mSelectionReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
-            RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
-            Long id = bundle.getLong(Constants.B_ID);
-            int index = bundle.getInt(Constants.B_INDEX);
+            RelatedTopic data = (RelatedTopic) bundle.getSerializable(BundleConstants.B_DATA);
+            Long id = bundle.getLong(BundleConstants.B_ID);
+            int index = bundle.getInt(BundleConstants.B_INDEX);
             data.setId(id);
             if (displayFrag == null) {
                 startDetailActivity(data, index);
@@ -233,12 +237,12 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         @Override
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
-            RelatedTopic data = (RelatedTopic) bundle.getSerializable(Constants.B_DATA);
-            int index = bundle.getInt(Constants.B_INDEX);
-            if(mainFragment != null && isFavorite){
-                if(data.getFavorite()){
+            RelatedTopic data = (RelatedTopic) bundle.getSerializable(BundleConstants.B_DATA);
+            int index = bundle.getInt(BundleConstants.B_INDEX);
+            if (mainFragment != null && isFavorite) {
+                if (data.getFavorite()) {
                     mainFragment.getmAdapter().getItems().add(index, data);
-                }else {
+                } else {
                     mainFragment.getmAdapter().getItems().remove(index);
                 }
                 mainFragment.getmAdapter().notifyDataSetChanged();
@@ -246,6 +250,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
 
         }
     };
+
     private void updateDetailFragment(RelatedTopic data, int index) {
         displayFrag.update(data, index);
     }
@@ -253,9 +258,9 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     private void startDetailActivity(RelatedTopic data, int index) {
         Intent i = new Intent(this, DetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.B_DATA, data);
-        bundle.putLong(Constants.B_ID, data.getId());
-        bundle.putInt(Constants.B_INDEX, index);
+        bundle.putSerializable(BundleConstants.B_DATA, data);
+        bundle.putLong(BundleConstants.B_ID, data.getId());
+        bundle.putInt(BundleConstants.B_INDEX, index);
         i.putExtras(bundle);
         startActivity(i);
         overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
@@ -265,7 +270,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     protected void onDestroy() {
         // Unregister since the activity is about to be closed.
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mSelectionReceiver);
-        if(displayFrag != null) {
+        if (displayFrag != null) {
             LocalBroadcastManager.getInstance(this).unregisterReceiver(mFavoriteUpdateReceiver);
         }
         super.onDestroy();
@@ -281,8 +286,8 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         List<RelatedTopic> newData = filter(data, newText);
         mainFragment.getmAdapter().addAll(newData);
         mainFragment.getmAdapter().notifyDataSetChanged();
-        if(newData.size() <= 0){
-            Toast.makeText(this, "No Character with the name of "+ newText+" found!", Toast.LENGTH_LONG).show();
+        if (newData.size() <= 0) {
+            Toast.makeText(this, "No Character with the name of " + newText + " found!", Toast.LENGTH_LONG).show();
         }
         return false;
     }
@@ -303,10 +308,10 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         closeDrawer();
-        if(i==0){
+        if (i == 0) {
             isFavorite = false;
             populateUI(this.data, false);
-        }else {
+        } else {
             isFavorite = true;
             fetchFavorites();
         }
@@ -315,13 +320,13 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
     private void fetchFavorites() {
         String[] favoriteValueArray = new String[1];
         favoriteValueArray[0] = "true";
-        List<RelatedTopic> listFav= RelatedTopic.find(RelatedTopic.class,"favorite=?","1");
+        List<RelatedTopic> listFav = RelatedTopic.find(RelatedTopic.class, "favorite=?", "1");
         if (listFav.size() > 0) {
             populateUI(listFav, true);
-            if(displayFrag!=null){
+            if (displayFrag != null) {
                 displayFrag.update(null, 0);
             }
-        }else {
+        } else {
             isFavorite = false;
             populateUI(this.data, false);
             Toast.makeText(this, "No Favorites found!", Toast.LENGTH_LONG).show();
@@ -331,11 +336,11 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.nav_Button:
-                if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                     closeDrawer();
-                }else {
+                } else {
                     openDrawer();
                 }
                 break;
@@ -347,7 +352,7 @@ public abstract class MainActivity extends BaseActivity implements MainFragment.
         getNavButton().setSelected(false);
     }
 
-    private void openDrawer(){
+    private void openDrawer() {
         mDrawerLayout.openDrawer(GravityCompat.START);
         getNavButton().setSelected(true);
     }

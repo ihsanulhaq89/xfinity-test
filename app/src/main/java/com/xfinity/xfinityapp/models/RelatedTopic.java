@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Ihsanulhaq on 3/12/2016.
  */
 
-public class RelatedTopic extends SugarRecord implements Serializable{
+public class RelatedTopic extends SugarRecord implements Serializable {
 
     private String Result;
     private Icon Icon;
@@ -40,10 +40,11 @@ public class RelatedTopic extends SugarRecord implements Serializable{
         return Icon;
     }
 
-    public Icon getIconFromDB(){
+    public Icon getIconFromDB() {
         Icon = com.xfinity.xfinityapp.models.Icon.findById(com.xfinity.xfinityapp.models.Icon.class, getId());
         return Icon;
     }
+
     /**
      * @param Icon The Icon
      */
@@ -80,12 +81,12 @@ public class RelatedTopic extends SugarRecord implements Serializable{
         this.Text = Text;
     }
 
-    public String getDescription(){
-        return Text.substring(getText().indexOf("-")+2);
+    public String getDescription() {
+        return Text.substring(getText().indexOf("-") + 2);
     }
 
-    public String getTitle(){
-        return Text.substring(0, getText().indexOf("-")-1);
+    public String getTitle() {
+        return Text.substring(0, getText().indexOf("-") - 1);
     }
 
     public boolean getFavorite() {

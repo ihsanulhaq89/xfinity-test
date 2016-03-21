@@ -18,7 +18,8 @@ import com.squareup.picasso.Picasso;
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.models.Icon;
 import com.xfinity.xfinityapp.models.RelatedTopic;
-import com.xfinity.xfinityapp.util.Constants;
+import com.xfinity.xfinityapp.util.BundleConstants;
+import com.xfinity.xfinityapp.util.EventConstants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,7 +114,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     }
 
     public void update(RelatedTopic data, int index) {
-        if(data == null){
+        if (data == null) {
             description.setText(getString(R.string.placeholder));
             imageView.setImageResource(R.drawable.placeholder);
             floatingActionButton.setVisibility(View.GONE);
@@ -148,9 +149,9 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
 
     private void sendMessage() {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.B_DATA, data);
-        bundle.putInt(Constants.B_INDEX, index);
-        Intent intent = new Intent(Constants.BROADCAST_FAVORITE);
+        bundle.putSerializable(BundleConstants.B_DATA, data);
+        bundle.putInt(BundleConstants.B_INDEX, index);
+        Intent intent = new Intent(EventConstants.BROADCAST_FAVORITE);
         intent.putExtras(bundle);
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
     }

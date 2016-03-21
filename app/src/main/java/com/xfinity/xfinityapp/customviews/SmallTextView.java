@@ -9,7 +9,7 @@ import com.xfinity.xfinityapp.R;
 /**
  * Created by Ihsanulhaq on 3/15/2016.
  */
-public class SmallTextView extends android.widget.TextView{
+public class SmallTextView extends android.widget.TextView {
     public SmallTextView(Context context) {
         super(context);
         init(context);

@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.xfinity.xfinityapp.R;
 import com.xfinity.xfinityapp.models.RelatedTopic;
-import com.xfinity.xfinityapp.util.Constants;
+import com.xfinity.xfinityapp.util.BundleConstants;
+import com.xfinity.xfinityapp.util.EventConstants;
 
 /**
  * Created by Ihsanulhaq on 3/12/2016.
@@ -29,11 +30,12 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder implements View
         itemView.setOnClickListener(this);
     }
 
-    public void invalidate(RelatedTopic data, int index){
+    public void invalidate(RelatedTopic data, int index) {
         setData(data);
         this.index = index;
         itemView.setText(data.getTitle());
     }
+
     @Override
     public void onClick(View view) {
         sendMessage();
@@ -49,10 +51,10 @@ public class CharacterViewHolder extends RecyclerView.ViewHolder implements View
 
     private void sendMessage() {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constants.B_DATA, getData());
-        bundle.putLong(Constants.B_ID, getData().getId());
-        bundle.putInt(Constants.B_INDEX, index);
-        Intent intent = new Intent(Constants.BROADCAST_SELECTION);
+        bundle.putSerializable(BundleConstants.B_DATA, getData());
+        bundle.putLong(BundleConstants.B_ID, getData().getId());
+        bundle.putInt(BundleConstants.B_INDEX, index);
+        Intent intent = new Intent(EventConstants.BROADCAST_SELECTION);
         intent.putExtras(bundle);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }

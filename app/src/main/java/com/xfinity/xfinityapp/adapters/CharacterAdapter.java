@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Ihsanulhaq on 3/12/2016.
  */
-public class CharacterAdapter extends RecyclerView.Adapter{
+public class CharacterAdapter extends RecyclerView.Adapter {
 
     private final Context mContext;
     private List<RelatedTopic> mItems;
@@ -31,12 +31,12 @@ public class CharacterAdapter extends RecyclerView.Adapter{
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if(grid){
+        if (grid) {
             View v = LayoutInflater.from(mContext)
                     .inflate(R.layout.row_grid, viewGroup, false);
             return new ExtendedCharacterViewHolder(mContext, v);
 
-        }else {
+        } else {
             View v = LayoutInflater.from(mContext)
                     .inflate(R.layout.row_linear, viewGroup, false);
             return new CharacterViewHolder(mContext, v);
@@ -45,7 +45,7 @@ public class CharacterAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int i) {
-        ((CharacterViewHolder)viewHolder).invalidate(mItems.get(i), i);
+        ((CharacterViewHolder) viewHolder).invalidate(mItems.get(i), i);
     }
 
     @Override
@@ -57,9 +57,10 @@ public class CharacterAdapter extends RecyclerView.Adapter{
         mItems = items;
     }
 
-    public List<RelatedTopic> getItems(){
+    public List<RelatedTopic> getItems() {
         return mItems;
     }
+
     public void setGrid(boolean grid) {
         this.grid = grid;
     }

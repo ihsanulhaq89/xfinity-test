@@ -6,16 +6,17 @@
 
     <com.xfinity.xfinityapp.customviews.SmallTextView
         android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/app_base_color"
-        android:textColor="@color/app_font_color"
-        android:textSize="@dimen/font_small"
         android:paddingBottom="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:textColor="@color/app_font_color"
+        android:textSize="@dimen/font_small" />
+
     <View
-        android:background="@color/app_bar_color"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/basic_padding"/>
+        android:layout_height="@dimen/basic_padding"
+        android:background="@color/app_bar_color" />
 </LinearLayout>
